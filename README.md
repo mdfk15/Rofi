@@ -15,7 +15,7 @@
 
 - Then, Clone this repository -
 ```
-$ git clone --depth=1 https://github.com/mdfk15/Rofi.git
+$ git clone https://github.com/mdfk15/Rofi.git
 ```
 
 ### Previews
