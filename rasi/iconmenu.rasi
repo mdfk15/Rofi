@@ -1,0 +1,19 @@
+@import "windows.rasi"
+
+/*****----- Listview -----*****/
+listview {
+  columns             : 8;
+  lines               : 1;
+}                     
+                      
+element-text {
+  font                : @icon-font;
+  cursor              : pointer;
+  horizontal-align      : 0.5;
+}
+
+element-text normal.urgent,
+element-text alternate.urgent {
+  text-color          : @urgent;
+  background-color    : @bg4;
+}

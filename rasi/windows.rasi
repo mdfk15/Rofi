@@ -1,0 +1,139 @@
+@import "color-dark.rasi"
+
+* {
+  icon-font        : "feather 24";
+  text-color       : @fg1;
+  background-color : @bg2;
+
+  margin  : 0px;
+  padding : 0px;
+  spacing : 0px;
+}
+
+window {
+  location      : northeast;
+  children      : [mainbox];
+  width               : 360px;
+  x-offset            : -5px;
+  y-offset            : 50px;
+  border              : 2px;
+  border-color        : @amber;
+  border-radius       : 15px;
+  padding             : 6px;
+}
+
+mainbox {
+  children            : [inputbar,listview,message];
+  background-color    : transparent;
+  padding             : 2px;
+  spacing             : 0px;
+}
+
+/*****----- Inputbar -----*****/
+inputbar {
+    enabled           : true;
+    spacing           : 0px;
+    padding           : 2px 6px 4px;
+    border            : 0px;
+    border-radius     : 0px;
+    border-color      : red;
+    background-color  : transparent;
+    text-color        : @fg1;
+    children          : ["prompt","textbox-prompt-colon"];
+}
+
+textbox-prompt-colon {
+    enabled             : true;
+    expand              : true;
+    str                 : "";
+    font                : "feather 18";
+    padding             : 1px 5px;
+    border-radius       : 8px 0px 0px 8px;
+    background-color    : transparent;
+    text-color          : @amber;
+    vertical-align      : 0.5;
+    horizontal-align    : 1;
+}
+
+prompt {
+    enabled					    : true;
+    padding					    : 1px 8px 1px 4px;
+    border-radius				: 0px 8px 8px 0px;
+    text-color					: @accent;
+    /*background-color	: @bg2;*/
+    /*background-color	: inherit;*/
+    background-color	  : transparent;
+    font					      : "Iosevka Bold 14.5";
+    vertical-align      : 1.0;
+    horizontal-align    : 0.5;
+}
+
+/*****----- Message -----*****/
+message {
+    enabled							: true;
+    margin							: 0px 0px 0px;
+    padding							: 1px 8px 8px;
+    border							: 0px solid;
+    border-radius				: 0px 0px 12px 12px;
+    background-color	  : @bg2;
+    /*background-color	: @bg2; */
+    text-color					: @fg1;
+}
+
+textbox {
+    background-color		: transparent;
+    text-color					: inherit;
+    vertical-align			: 0.5;
+    horizontal-align		: 0.5;
+    font								: "Iosevka 12";
+}
+
+/*****----- Listview -----*****/
+listview {
+  enabled             : true; 
+  layout              : vertical;
+  background-color    : @bg2;
+  border-radius       : 12px 12px 0px 0px;
+  text-color          : @fg1;
+  spacing             : 8px 4px;
+  padding             : 8px;
+}                     
+                      
+element {             
+  children            : [element-text];
+  border-radius       : 12px;
+  background-color    : transparent;
+}
+
+element-text {
+  padding             : 4px;
+  background-color    : @bg4;
+  vertical-align      : 0.5;
+}
+
+element-text selected.active {
+  text-color       : @bg3;
+  background-color : @active;
+}
+
+element-text selected.urgent {
+  text-color       : @bg3;
+  background-color : @urgent;
+}
+
+element-text selected.normal {
+  text-color       : @bg3;
+  background-color : @accent;
+}
+
+element-text normal.normal,
+element-text alternate.normal {
+/*  text-color          : @bg1; */
+/*  background-color    : @urgent; */
+}
+
+element-text normal.active,
+element-text alternate.active {
+  text-color          : @active;
+  background-color    : @bg4;
+}
