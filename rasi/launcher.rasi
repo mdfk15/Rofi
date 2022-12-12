@@ -7,207 +7,184 @@
  * Rofi Version: 1.7.3
  **/
 
+@import "color-darkearth.rasi"
+
 /*****----- Configuration -----*****/
 configuration {
-	modi:                       "drun,run,filebrowser,window";
-    show-icons:                 true;
-    display-drun:               "APPS";
-    display-run:                "RUN";
-    display-filebrowser:        "FILES";
-    display-window:             "WINDOWS";
-	drun-display-format:        "{name}";
-	window-format:              "{w} · {c}";
+	modi:                       "drun,filebrowser,window";
+  show-icons:                 true;
+  display-drun:               "APPS";
+  display-filebrowser:        "FILES";
+  display-window:             "WINDOW";
+	drun-display-format:        "{name}\n[<span weight='light' size='small'><i>({generic})</i></span>]";
+	window-format:              "Class : {c}\nWorkspace : {w}";
 }
-
-@import "color-dark.rasi"
 
 /*****----- Global Properties -----*****/
 * {
-    font:                        "JetBrains Mono Nerd Font 10";
-    background:                  @bg2;
-    background-alt:              @bg1;
-    foreground:                  @fg0;
-    selected:                    #BEBEBE2f;
-    active:                      #999999;
-    urgent:                      #808080;
+    font:                        "Iosevka Nerd Font 10";
+    background-color         :   grey/10%;
 }
 
 /*****----- Main Window -----*****/
 window {
     /* properties for window widget */
-    transparency:               "real";
-    location:                   center;
-    anchor:                     center;
-    fullscreen:                 false;
-    width:                      70%;
-    height:                     94%;
-    x-offset:                   0px;
-    y-offset:                   20px;
+    transparency:                "real";
+    location:                    center;
+    anchor:                      center;
+    fullscreen:                  false;
+    width:                       100%;
+    height:                      100%;
+    x-offset:                    0px;
+    y-offset:                    0px;
 
     /* properties for all widgets */
     enabled:                     true;
-    border-radius:               15px;
+    margin:                      0px;
+    padding:                     0px;
+    border-radius:               12px;
     cursor:                      "default";
-    background-color:            @background;
+/*    background-image:            url("~/.config/rofi/images/gradient.png", width); */
 }
 
 /*****----- Main Box -----*****/
 mainbox {
     enabled:                     true;
-    spacing:                     0px;
-    background-color:            transparent;
-    orientation:                 vertical;
-    children:                    [ "inputbar", "listbox" ];
-}
-
-listbox {
     spacing:                     20px;
-    padding:                     20px;
-    background-color:            transparent;
-    orientation:                 vertical;
-    children:                    [ "message", "listview" ];
+    margin:                      100px 375px;
+    padding:                     40px;
+    border-radius:               12px;
+    background-color:            @bg1;
+    children:                    [ "inputbar", "mode-switcher", "listview" ];
 }
 
 /*****----- Inputbar -----*****/
 inputbar {
     enabled:                     true;
-    spacing:                     10px;
-    padding:                     100px 60px;
+    spacing:                     0px;
+    margin:                      0px 10%;
+    padding:                     0px 0px 10px 0px;
+    border:                      0px 0px 2px 0px;
+    border-radius:               0px;
+    border-color:                gray/20%;
     background-color:            transparent;
-    background-image:            url("~/registre/Imagenes/Linux/rofi-bg.jpg", width);
-    text-color:                  @foreground;
-    orientation:                 horizontal;
-    children:                    [ "textbox-prompt-colon", "entry", "dummy", "mode-switcher" ];
-}
-textbox-prompt-colon {
-    enabled:                     true;
-    expand:                      false;
-    str:                         "";
-    padding:                     12px 15px;
-    border-radius:               100%;
-    background-color:            @background-alt;
-    text-color:                  inherit;
-}
-entry {
-    enabled:                     true;
-    expand:                      false;
-    width:                       300px;
-    padding:                     12px 16px;
-    border-radius:               100%;
-    background-color:            @background-alt;
-    text-color:                  inherit;
-    cursor:                      text;
-    placeholder:                 "Search";
-    placeholder-color:           inherit;
-}
-dummy {
-    expand:                      true;
-    background-color:            transparent;
+    children:                    [ "entry" ];
 }
 
-/*****----- Mode Switcher -----*****/
-mode-switcher{
+entry {
     enabled:                     true;
-    spacing:                     10px;
     background-color:            transparent;
-    text-color:                  @foreground;
-}
-button {
-    width:                       80px;
-    padding:                     12px;
-    border-radius:               100%;
-    background-color:            @background-alt;
-    text-color:                  inherit;
-    cursor:                      pointer;
-}
-button selected {
-    background-color:            @selected;
-    text-color:                  @foreground;
+    text-color:                  gray;
+    cursor:                      text;
+    placeholder:                 "Type to filter";
+    placeholder-color:           inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
 }
 
 /*****----- Listview -----*****/
 listview {
     enabled:                     true;
-    columns:                     6;
-    lines:                       3;
+    columns:                     3;
+    lines:                       6;
     cycle:                       true;
     dynamic:                     true;
-    scrollbar:                   false;
+    scrollbar:                   true;
     layout:                      vertical;
     reverse:                     false;
     fixed-height:                true;
     fixed-columns:               false;
-    
-    spacing:                     10px;
+    spacing:                     35px;
+    margin:                      0px;
+    padding:                     20px 0px 0px 0px;
+    border:                      0px solid;
+ /*   background-color:            white/50%; */
     background-color:            transparent;
-    text-color:                  @foreground;
     cursor:                      "default";
+}
+
+/*****----- Scrollbar -----*****/
+scrollbar {
+  margin        :   5px 0px 5px 5px;
+  handle-width  :   8px;
+  handle-color  :   @grey-dark;
+  border-color  :   @grey-dark;
+  border-radius :   12px;
 }
 
 /*****----- Elements -----*****/
 element {
     enabled:                     true;
-    spacing:                     10px 20px;
-    padding:                     10px;
-    border-radius:               15px;
-    background-color:            transparent;
-    text-color:                  @foreground;
+    spacing:                     10px;
+    margin:                      0px;
+    padding:                     15px;
+    border:                      1px solid;
+    border-radius:               8px;
+    border-color:                gray/30%;
+    background-color:            gray/65%;
+    text-color:                  white;
     cursor:                      pointer;
-    orientation:                 vertical;
-}
-element normal.normal {
-    background-color:            inherit;
-    text-color:                  inherit;
-}
-element normal.urgent {
-    background-color:            @urgent;
-    text-color:                  @foreground;
 }
 element normal.active {
-    background-color:            @active;
-    text-color:                  @foreground;
+    background-color:            #67FF80;
+    text-color:                  black;
 }
 element selected.normal {
-    background-color:            @selected;
-    text-color:                  @foreground;
-}
-element selected.urgent {
-    background-color:            @urgent;
-    text-color:                  @foreground;
+    background-color:            #FDD66F;
+    text-color:                  black;
 }
 element selected.active {
-    background-color:            @urgent;
-    text-color:                  @foreground;
+    background-color:            #FF7F7C;
+    text-color:                  black;
 }
 element-icon {
     background-color:            transparent;
-    text-color:                  inherit;
-    size:                        80px;
+    size:                        48px;
     cursor:                      inherit;
 }
 element-text {
     background-color:            transparent;
     text-color:                  inherit;
+    font:                        "Iosevka Nerd Font 12";
     cursor:                      inherit;
-    vertical-align:              0.5;
-    horizontal-align:            0.5;
-}
-
-/*****----- Message -----*****/
-message {
-    background-color:            transparent;
-}
-textbox {
-    padding:                     15px;
-    border-radius:               15px;
-    background-color:            @background-alt;
-    text-color:                  @foreground;
     vertical-align:              0.5;
     horizontal-align:            0.0;
 }
+
+/*****----- Mode Switcher -----*****/
+mode-switcher{
+    enabled:                     true;
+    expand:                      false;
+    spacing:                     20px;
+    margin:                      0px 10%;
+    background-color:            transparent;
+    text-color:                  white;
+}
+button {
+    font:                        "Iosevka Nerd Font Bold 10";
+    padding:                     10px 6px;
+    border:                      0px solid;
+    border-radius:               100%;
+    background-color:            #719DF9;
+    text-color:                  inherit;
+    cursor:                      pointer;
+}
+button selected {
+    background-color:            #F37277;
+    text-color:                  inherit;
+}
+
+/*****----- Message -----*****/
 error-message {
-    padding:                     15px;
-    border-radius:               15px;
-    background-color:            @background;
-    text-color:                  @foreground;
+    padding:                     20px;
+    background-color:            transparent;
+    text-color:                  black;
+}
+textbox {
+    padding:                     20px;
+    border-radius:               12px;
+    background-color:            white/30%;
+    text-color:                  black;
+    vertical-align:              0.5;
+    horizontal-align:            0.0;
 }

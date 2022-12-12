@@ -1,9 +1,17 @@
-@import "color-dark.rasi"
+/**
+ *
+ * Author : mdfk@Elite <2022>
+ * Github : @mdfk15
+ * 
+ * Rofi Main Theme File
+ **/
+
+@import "color-darkearth.rasi"
 
 * {
-  icon-font        : "feather 24";
-  text-color       : @fg1;
-  background-color : @bg2;
+  icon-font        : "Iosevka 24";
+  text-color       : @fg0;
+  background-color : @bg0;
 
   margin  : 0px;
   padding : 0px;
@@ -11,13 +19,13 @@
 }
 
 window {
-  location      : northeast;
-  children      : [mainbox];
+  location            : northeast;
+  children            : [mainbox];
   width               : 360px;
   x-offset            : -5px;
   y-offset            : 50px;
   border              : 2px;
-  border-color        : @amber;
+  border-color        : @bg1;
   border-radius       : 15px;
   padding             : 6px;
 }
@@ -33,24 +41,22 @@ mainbox {
 inputbar {
     enabled           : true;
     spacing           : 0px;
-    padding           : 2px 6px 4px;
+    padding           : 4px 6px 6px;
     border            : 0px;
-    border-radius     : 0px;
+    border-radius     : 12px;
     border-color      : red;
     background-color  : transparent;
-    text-color        : @fg1;
     children          : ["prompt","textbox-prompt-colon"];
 }
 
 textbox-prompt-colon {
     enabled             : true;
     expand              : true;
-    str                 : "";
     font                : "feather 18";
     padding             : 1px 5px;
     border-radius       : 8px 0px 0px 8px;
     background-color    : transparent;
-    text-color          : @amber;
+    text-color          : @normal;
     vertical-align      : 0.5;
     horizontal-align    : 1;
 }
@@ -59,9 +65,7 @@ prompt {
     enabled					    : true;
     padding					    : 1px 8px 1px 4px;
     border-radius				: 0px 8px 8px 0px;
-    text-color					: @accent;
-    /*background-color	: @bg2;*/
-    /*background-color	: inherit;*/
+    text-color					: @normal;
     background-color	  : transparent;
     font					      : "Iosevka Bold 14.5";
     vertical-align      : 1.0;
@@ -71,13 +75,12 @@ prompt {
 /*****----- Message -----*****/
 message {
     enabled							: true;
-    margin							: 0px 0px 0px;
+    margin							: 0px;
     padding							: 1px 8px 8px;
     border							: 0px solid;
     border-radius				: 0px 0px 12px 12px;
-    background-color	  : @bg2;
-    /*background-color	: @bg2; */
-    text-color					: @fg1;
+    background-color	  : @bg1;
+    text-color					: @foregr;
 }
 
 textbox {
@@ -85,6 +88,7 @@ textbox {
     text-color					: inherit;
     vertical-align			: 0.5;
     horizontal-align		: 0.5;
+    icon-font           : "feather 12";
     font								: "Iosevka 12";
 }
 
@@ -92,9 +96,9 @@ textbox {
 listview {
   enabled             : true; 
   layout              : vertical;
-  background-color    : @bg2;
+  background-color    : @bg1;
   border-radius       : 12px 12px 0px 0px;
-  text-color          : @fg1;
+  text-color          : @fg0;
   spacing             : 8px 4px;
   padding             : 8px;
 }                     
@@ -107,33 +111,34 @@ element {
 
 element-text {
   padding             : 4px;
-  background-color    : @bg4;
+  background-color    : @element;
   vertical-align      : 0.5;
 }
 
 element-text selected.active {
-  text-color       : @bg3;
-  background-color : @active;
+  icon-font         :  "Iosevka 16";
+  text-color        : @accent;
+  background-color  : @active;
 }
 
 element-text selected.urgent {
-  text-color       : @bg3;
+  text-color       : @accent;
   background-color : @urgent;
 }
 
 element-text selected.normal {
-  text-color       : @bg3;
-  background-color : @accent;
+  text-color       : @accent;
+  background-color : @normal;
 }
 
 element-text normal.normal,
 element-text alternate.normal {
-/*  text-color          : @bg1; */
+  text-color          : @normal; 
 /*  background-color    : @urgent; */
 }
 
 element-text normal.active,
 element-text alternate.active {
   text-color          : @active;
-  background-color    : @bg4;
+/*  background-color    : @bg1; */
 }

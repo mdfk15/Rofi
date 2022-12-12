@@ -1,39 +1,44 @@
 #!/usr/bin/env bash
 #
-#  Copyright 2022 mdfk <mdfk@Elite>
+## Author   : mdfk@Elite <2022>
+## Github   : @mdfk15
+#
+####### Rofi Calendar #######
 
-# Resources
-icon_menu="../rasi/iconmenu.rasi"
-list_menu="../rasi/listmenu.rasi"
+options() {
+    # Options
+    active='-a 1'
+    urgent=''
+    window_opt="location: north; width:320px;"
+    message_opt="font: \"Iosevka 19\";"
+    extra_opt="-selected-row 1"
 
-# Options
-active='-a 2,0'
+    prev=''
+    next=''
+    list=''
 
-add='' 
-prev=''
-next=''
-list=''
-end_task=""
+    # Rofi variables
+    options="$prev\n$list\n$next"
+}
 
-# Functions
-rofi_cmd() {
-    if [ $1 == main ]; then
-        rofi -p "Calendar" -mesg "$(echo -e "$message")" \
-            -theme $icon_menu -dmenu $@ \
-            -theme-str 'window { width: 290px; }' \
-            -theme-str 'textbox-prompt-colon {str: "";}' \
-            -theme-str 'message {padding: 5px 8px 5px 8px;}' \
-            -theme-str 'textbox {horizontal-align: 0.5; vertical-align: 1; font: "Iosevka 18";}' \
-            -theme-str "window {location: north;}" \
-            -selected-row 2 \
-            -theme-str 'element-text {padding: 0px 4px;}'
-    else
-        rofi -p "Calendar" -theme $icon_menu -dmenu $@ -mesg "$message" \
-            -theme-str "window {location: north; width: 290px;}" \
-            -theme-str 'textbox-prompt-colon {str: ""; }' \
-            -theme-str 'textbox {horizontal-align: 0; }' \
-            -theme-str 'textbox {font: "Iosevka 11"; }'
-    fi
+
+info_menu() {
+    back=''
+    exit_opt=''
+    options="$back\n$exit_opt"
+    active='-a 0'
+    urgent='-u -1'
+    message=$(cat ~/task/calendar_tasks)
+    message_opt="font: \"Iosevka 13\"; horizontal-align: 0;"
+    chosen=$(echo -e "$options" | rofi_cmd 'info')
+
+    case $chosen in
+        $back)
+            message=$(cal | sed -z "s|$TODAY|<u><b>$TODAY</b></u>|1")
+            main_menu $icon_menu;;
+        *)
+            exit;;
+    esac
 }
 
 handle_action() {
@@ -44,34 +49,32 @@ handle_action() {
 	fi
 }
 
-main_menu() {
-    DIFF=0
-    options="$list\n$prev\n$add\n$next\n$end_task"
-    message=$(cal)
-    
-    while true; do
-        # Rofi command
-        chosen="$(echo -e "$options" | rofi_cmd "main" $active $urgent)"
-        
-        sleep 0.1
-        echo $chosen
-        case $chosen in
-#            $add)
-#                ;;
-            $next)
-                DIFF=$((DIFF+1))
-                echo next: $DIFF;;
-            $prev)
-                DIFF=$((DIFF-1))
-                echo prev: $DIFF;;
-            $list)
-                info_menu;;
-            *)
-                exit
-        esac
-        handle_action
-    done
+check_case() {
+    case $chosen in
+        $next)
+            DIFF=$((DIFF+1))
+            handle_action;;
+        $prev)
+            DIFF=$((DIFF-1))
+            handle_action;;
+        $list)
+            info_menu;;
+        *)
+            exit
+    esac
+    main_menu
 }
+
+# Resources
+DIFF=0
+TODAY=$(date '+%-d')
+message=$(cal | sed -z "s|$TODAY|<u><b>$TODAY</b></u>|1")
+
+title='Calendar'
+icon=''
+
+path=$(dirname "$0")
+source $path/base.sh
 
 case $1 in
     --status)

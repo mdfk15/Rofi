@@ -1,44 +1,43 @@
 #!/usr/bin/env bash
 #
-#  Copyright 2022 mdfk <mdfk@Elite>
+## Author   : mdfk@Elite <2022>
+## Github   : @mdfk15
+#
+####### Rofi Powermenu #######
 
-main="../rasi/iconmenu.rasi"
-message=$(uptime -p | sed -e 's/up //g')
+# Timer
+timer=6
 
 rofi_cmd() {
-  rofi -p "Powermenu" -theme $1 -dmenu $@ \
-    -mesg "Uptime: `uptime -p | sed -e 's/up //g'`  - off 7s" \
-    -theme-str 'textbox-prompt-colon {str: ""; }' \
+  rofi -p "Powermenu" -theme "~/.config/rasi/powermenu" -dmenu $@ \
+    -mesg "Uptime `uptime -p | sed -e 's/up //g'`" \
+    -hover-select -me-select-entry '' -me-accept-entry MousePrimary \
     $selected_row $urgent
-     }
+}
 
 # Options
 shutdown=""
 reboot=""
 suspend=""
 logout=""
-cancel=""
+lock=""
 
 time_notify() {
-  for N in $(seq 7)
+  for N in $(seq $timer -1 1)
   do
-    dunstify -u critical -a "Power system" "$1 in $((8-$N)) Click to cancel!!!" -h string:x-dunst-stack-tag:"$1" --action="replyAction,reply" > ~/.config/scripts/pm_forward &
+    dunstify -u critical -a "Power system" "$1 in $(($N)) Click to cancel!!!" -h string:x-dunst-stack-tag:"$1" --action="replyAction,reply" > $path/pm_forward &
     sleep 1
-	  if grep -Fxq 2 ~/.config/scripts/pm_forward
- 	  then 
+	  if grep -Fxq 2 $path/pm_forward; then
 	  	killall sh
- 	  else
- 	  	echo "nada"
  	  fi
   done
 }
 
 # Variable passed to rofi
-options="$shutdown\n$reboot\n$suspend\n$logout\n$cancel"
+options="$shutdown\n$reboot\n$suspend\n$logout\n$lock"
+
 n=0
 for i in $(echo -e "$options"); do
-  echo $i
-  echo $n
   [[ "$i" == "$cancel" ]] && urgent="-u $n"
   [[ "$i" == "$shutdown" ]] && selected_row="-selected-row $n"
   ((n+=1))
@@ -59,6 +58,8 @@ case $chosen in
     $logout)
       time_notify "poweroff"
       pkill -KILL -u $(whoami) ;;
+    $lock)
+      dm-tool switch-to-greeter;;
     $cancel) ;;
 esac
 rm ~/.config/scripts/pm_forward

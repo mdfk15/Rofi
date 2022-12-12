@@ -2,8 +2,17 @@
 
 /*****----- Listview -----*****/
 listview {
-  columns : 1;
-  lines   : 10;
+  columns   : 1;
+  lines     : 10;
+  scrollbar : true;
+}
+
+scrollbar {
+  margin        : 5px 0px 5px 5px;
+  handle-width  : 8px;
+  handle-color  : @grey-dark;
+  border-color  : @grey-dark;
+  border-radius : 12px;
 }
 
 element {
@@ -26,11 +35,11 @@ element-icon {
 
 element-text normal.urgent,
 element-text alternate.urgent {
-  text-color:         @accent;
+  text-color:         @foregr;
   background-color:   transparent;
 }
 
 element-text selected.urgent {
-  text-color       : @bg3;
-  background-color : @accent;
+  text-color       : @bg0;
+  background-color : @foregr;
 }

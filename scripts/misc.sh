@@ -1,136 +1,115 @@
 #!/usr/bin/env bash
 #
-#  Copyright 2022 mdfk <mdfk@Elite>
-
-# Resources
-icon_menu="../rasi/iconmenu.rasi"
-list_menu="../rasi/listmenu.rasi"
+## Author   : mdfk@Elite <2022>
+## Github   : @mdfk15
+#
+####### Rofi Musictl #######
 
 # Functions
-status_options() {
-    active='-a 2,0'
-    urgent='-u 5'
+options() {
+    dunstctl close
     status=$(mpc)
+    cover='129px' # Cover art images size
+    artist=$(mpc --format '%albumartist%' current)
+    album=$(mpc --format '%album%' current)
+
+    # Check if file exist, if not it set a default cover image
+    test -f ~/Musica/.art/"$artist"/"$album"/art.jpg && cover_img="$artist/$album/art.jpg" || cover_img="art.jpg"
+    inputbar_opt="background-image: url(\"/home/user/Musica/.art/$cover_img\", width);padding:$cover;margin:4px 4px 10px;"
 
     # Options
-    if [[ $status =~ "playing" ]]; then
-        [ -n "$active" ] && active+=",2" || active="-a 2"
-        play=''
-    else
-        play=''
-    fi
-    if [[ $status =~ "playing" ]]; then
-        random=""
-        [ -n "$active" ] && active+=",2" || active="-a 2"
-    else
-        random=""
-    fi
-
+    active='-a 2'
+    urgent=''
 
     if [[ $status =~ "playing" ]]; then
-        list='' #
-        [ -n "$active" ] && active+=",2" || active="-a 2"
+        play=''
     else
-        list='' #
+        play=''
     fi
-    prev=''
-    next=''
-    cancel=""
+
+    if [[ $status =~ "random: on" ]]; then
+        random=""
+        [ -n "$active" ] && active+=",0" || active="-a 0"
+    elif [[ $status =~ "repeat: on" ]]; then
+        random=""
+    fi
+
+    list=''
+    prev=''
+    next=''
+
+    # Rofi variables
+    options="$random\n$prev\n$play\n$next\n$list"
+    message=$(mpc --format "<b>%artist% - %title%</b>\n%album%" current)
 }
 
-music_list() {
-    list_music="$(mpc --format '%title%' playlist)"
-    n=2
-    active=''
-    back=' Back'
-    exit_opt=' Exit'
-    options="$back\n$exit_opt\n$list_music"
+handle_option() {
+    if [ $1 == 'list' ]; then
+        cover='55px'
+        inputbar_opt="background-image: url(\"/home/user/Musica/.art/`mpc --format \"%albumartist%/%album%\" current`/art.jpg\", width);padding:$cover;margin:4px 4px 10px;"
+        element_list="$(mpc --format '%title%' playlist)"
+        current="$(mpc --format '%title%' current)"
 
-    lines=$(echo "$list_music" | wc -l)
-    ((lines+=2))
-    if [ $lines -gt 12 ]; then
-        if ! [ $(($lines%2)) == 0 ]; then
-            ((lines+=1))
+        menu_list
+        case $chosen in
+            $back)
+                cover='125px'
+                main_menu;;
+            $exit_opt)
+                exit;;
+            *)
+                n=1
+                while read line; do
+                    if [[ $chosen == $line && -n $chosen ]]; then
+                        mpc play $n
+                    elif [ -z $chosen ]; then
+                        exit
+                    fi
+                    ((n+=1))
+                done < <(echo -e "$element_list")
+        esac
+        current="$(mpc --format '%title%' current)"
+        handle_option 'list'
+    elif [ $1 == 'random' ]; then
+        if [[ $status =~ "random: on" ]]; then
+            mpc random off
+        elif [[ $status =~ "repeat: on" ]]; then
+            mpc random on
         fi
-        lines=$((lines/2))
     fi
-    
-    while read line; do
-        current_song=$(mpc --format '%title%' current)
-        if [[ $current_song == $line ]]; then
-            [ -n "$active" ] && active+=",$n" || active="-a $n"
-        fi
-        ((n+=1))
-    done < <(echo -e "$list_music")
-
-    chosen=$(echo -e "$options" | rofi_cmd $1 -u 0,1 $active -selected-row 2)
-
-    sleep 0.1
-    case $chosen in
-        $back)
-            main_menu $icon_menu;;
-        $exit_opt)
-            exit;;
-        *)
-            n=1
-            while read line; do
-                if [[ $chosen == $line && -n $chosen ]]; then
-                    mpc play $n
-                elif [ -z $chosen ]; then
-                    exit
-                fi
-                ((n+=1))
-            done < <(echo -e "$list_music")
-    esac
-    music_list $list_menu
+    main_menu
 }
 
-rofi_cmd() {
-    rofi -p "Music" -mesg "$message" \
-        -theme $1 -dmenu $@ \
-        -theme-str 'textbox-prompt-colon {str: "";}' \
-        -theme-str "window {location: north;}" \
-        -selected-row 2 
-}
-
-
-main_menu() {
-    status_options
-    options="$random\n$prev\n$play\n$next\n$list\n$cancel"
-    message=$(mpc --format "%title% \n%artist% - %album%" current)
-    echo $message
-    
-    # Rofi command
-    chosen="$(echo -e "$options" | rofi_cmd $1 $active $urgent)"
-    
-    sleep 0.1
+check_case() {
     case $chosen in
         $play)
-            mpc toggle
-            ;;
+            mpc toggle;;
         $prev)
-            mpc prev
-            ;;
+            mpc prev;;
         $next)
-            mpc next
-            ;;
+            mpc next;;
         $list)
-            music_list $list_menu
-            ;;
+            handle_option 'list';;
         $random)
-            mpc prev
-            ;;
+            handle_option 'random';;
         $cancel)
             exit;;
         *)
             exit;;
     esac
-    main_menu $icon_menu
+    main_menu
 }
+
+# Resources
+window_opt="location: north; width:320px;"
+extra_opt="-selected-row 2"
+
+path=$(dirname "$0")
+source $path/base.sh
 
 case $1 in
     --status)
         pass ;;
     *)
-        main_menu $icon_menu;;
+        main_menu;;
 esac
