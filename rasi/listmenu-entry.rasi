@@ -1,0 +1,28 @@
+@import "listmenu.rasi"
+
+/*****----- Configuration -----*****/
+configuration {
+	scroll-method		: 2;
+	fixed-num-lines		: false;
+}
+
+/*****----- Head -----*****/
+
+coverbox { children : [ "message", "inputbar" ]; }
+
+inputbar { children : [ "entry", "textbox-prompt-colon" ]; }
+
+entry {
+	expand			: true;
+	padding			: calc( 1% );
+	margin			: calc( 1% ) 0px calc( 1% ) calc( 0.5% );
+	font			: "Iosevka Nerd Font 12";
+  	text-color        	: var(foreground);
+	placeholder		: "Type song or artist";
+  	border-color      	: transparent;
+	border-radius		: 6px;
+	background-color	: var(background);
+  	vertical-align    	: 0.5;
+  	horizontal-align    	: 0.5;
+}
+

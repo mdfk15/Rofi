@@ -1,0 +1,33 @@
+/**
+ *
+ * Author : mdfk@Elite <2022>
+ * Github : github.com/mdfk15
+ * 
+ * Rofi Theme File
+ **/
+
+* {
+    white		: #AAAAAA;
+    black     		: #000000;
+    grey      		: grey/5%;
+    grey-dark 		: #1a1e23;
+    gold      		: #FFF3B0;
+    yellow    		: #e0af68;
+    amber     		: #E9CC9D;
+    green     		: #9ece6a;
+    teal      		: #20d1bf;
+    cyan      		: #4abaaf;
+    blue      		: #0093f760;
+    blue-dark 		: #182950;
+    magenta   		: #9a7ecc;
+    red       		: #f7768e;
+
+    background:                 #0A0E1488;
+    background-alt:             grey/14%;
+    /* background-alt:             black/60%; */
+    foreground:                 var(white);
+    foreground-alt:		white/90%;
+    selected:                   var(amber);
+    active:                     var(grey);
+    urgent:                     var(grey-dark);
+}

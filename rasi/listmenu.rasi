@@ -1,45 +1,62 @@
-@import "windows.rasi"
+@import "iconmenu.rasi"
+
+/*****----- Configuration -----*****/
+configuration {
+	scroll-method		: 0;
+	selected-row		: 2;
+}
+
+/*****----- Head -----*****/
 
 /*****----- Listview -----*****/
 listview {
-  columns   : 1;
-  lines     : 10;
-  scrollbar : true;
+	spacing		 	: 4px;
+	padding		 	: 5px;
+    	columns   	 	: 1;
+    	lines     	 	: 10;
+    	scrollbar 	 	: true;
 }
 
 scrollbar {
-  margin        : 5px 0px 5px 5px;
-  handle-width  : 8px;
-  handle-color  : @grey-dark;
-  border-color  : @grey-dark;
-  border-radius : 12px;
+	margin        	 	: 5px 0px 5px 0px;
+  	handle-width  	 	: 4px;
+  	handle-color  	 	: var(background-alt);
+  	border-color  	 	: black;
+  	border-radius 	 	: 12px;
+  	background-color 	: var(background);
 }
 
 element {
-  border-radius       : 8px;
+	border-radius    	: 8px;
+	orientation		: horizontal;
+	spacing			: 6px;
+	/* children		: [ element-icon, element-text ]; */
+	children		: [ element-text, element-icon ];
+	/* children		: [ element-text ]; */
 }
+
 element-text {
-  font    : "feather 13";
-  cursor  : "default";
-  horizontal-align : 0;
+	font    	 	: "feather 13";
+	padding			: 0px 5px;
+  	horizontal-align 	: 0;
 }
 
 element-icon {
-  font    : "awesome 10";
-  cursor  : "default";
-  padding : 4px;
-
-  vertical-align   : 0.5;
-  horizontal-align : 0;
+  	cursor  	 	: "default";
+	background-color	: transparent;
+	size			: 20;
+  	vertical-align   	: 0.5;
+  	horizontal-align 	: 0;
 }
 
-element-text normal.urgent,
-element-text alternate.urgent {
-  text-color:         @foregr;
-  background-color:   transparent;
+element selected.active,
+element selected.normal,
+element selected.urgent {
+	background-color 	: var(background-alt);
+    	text-color	 	: var(selected);
 }
 
-element-text selected.urgent {
-  text-color       : @bg0;
-  background-color : @foregr;
+element-text normal.active {
+  text-color			: var(selected);
+  background-color		: transparent;
 }

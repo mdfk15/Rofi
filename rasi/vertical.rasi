@@ -1,0 +1,26 @@
+@import "iconmenu.rasi"
+
+/*****----- Main Window -----*****/
+window {
+    	location		: east;
+    	width			: 80px;
+	x-offset		: -10px;
+    	y-offset		: 0px;
+}
+
+/*****----- Main Box -----*****/
+mainbox { children : [ "listview", "coverbox" ]; }
+
+coverbox { children : [ "message" ]; }
+
+message { orientation : vertical; }
+textbox { horizontal-align : 0.5; }
+
+/*****----- Listview -----*****/
+listview {
+	spacing		 	: 2px;
+	padding		 	: 4px 0px;
+	layout			: vertical;
+    	columns   	 	: 1;
+	lines			: 4;
+}

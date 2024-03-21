@@ -1,0 +1,35 @@
+@import "iconmenu.rasi"
+
+/*****----- Main Box -----*****/
+coverbox {
+    border-radius:		0px;
+}
+
+/*****----- Inputbar -----*****/
+inputbar {
+    background-color:           var(background);
+}
+
+prompt {
+    border-radius:               12px;
+    background-color:            transparent;
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+}
+
+/*****----- Message -----*****/
+message {
+    expand:			false;
+    background-color:           var(background);
+    text-color:                 var(foreground);
+}
+
+textbox {
+    background-color:           var(background);
+    padding:			220px calc( 1% ) calc( 2% );
+}
+
+/*****----- Elements -----*****/
+element-text {
+    font:                        "feather 25";
+}
