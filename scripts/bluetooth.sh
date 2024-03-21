@@ -7,14 +7,17 @@
 
 # Functions
 options() {
-    status=$(bluetoothctl show)
-    dev_now="$(bluetoothctl info | grep Name | cut -d ' ' -f 2-)"
-    dev_mac=$(bluetoothctl info | head -n 1 | cut -d ' ' -f 2)
-    dev_know=$(bluetoothctl devices | grep Device | cut -d ' ' -f 3-)
+	title='Bluetooth'
+    	status=$(bluetoothctl show)
+    	dev_now="$(bluetoothctl info | grep Name | cut -d ' ' -f 2-)"
+    	dev_battery="$(bluetoothctl info | grep 'Battery Percentage'| awk '{print $(NF)}' | tr -d '()')"
+    	dev_mac=$(bluetoothctl info | head -n 1 | cut -d ' ' -f 2)
+    	dev_know=$(bluetoothctl devices | grep Device | cut -d ' ' -f 3-)
+	current_dev=$(echo -e "$dev_now\nBattery: $dev_battery%")
 
-    # Function to check power, connection and others
-    # status_options <icon-on> <icon-off>
-    status_options  
+    	# Function to check power, connection and others
+    	# status_options <icon-on> <icon-off>
+    	status_options  
 }
 
 device_connected() {
@@ -57,17 +60,17 @@ handle_option() {
     # Scan menu
     elif [ $1 == 'list' ]; then
         if [[ $status =~ 'Powered: yes' ]]; then
-            dunstify -a "Bluetooth" "Scanning devices" -h string:x-dunst-stack-tag:'bluetooth'
-            bluetoothctl scan on & >/dev/null
+            dunstify -i bluetooth-connected -a "Bluetooth" "Scanning devices" -h string:x-dunst-stack-tag:'bluetooth'
+            bluetoothctl scan on >/dev/null
             sleep 5
-            kill $(pgrep -f "bluetoothctl scan on")
+            bluetoothctl scan off
             sleep 0.5
 
             element_list=$(bluetoothctl devices | cut -d ' ' -f 3-)
             dunstctl close
             menu_list
         else
-            dunstify -a "Bluetooth" "Power up controller before!" -h string:x-dunst-stack-tag:'bluetooth'
+            dunstify -i bluetooth-poweron -a "Bluetooth" "Power up controller before!" -h string:x-dunst-stack-tag:'bluetooth'
         fi
     else
         exit
@@ -78,7 +81,7 @@ handle_option() {
 element_option() {
     if [[ -n $chosen ]]; then
         device=$(bluetoothctl devices | grep "$chosen" | cut -d ' ' -f 2)
-        bluetoothctl connect $device >/dev/null & dunstify -t 4000 -a "Bluetooth" "Connecting to: $chosen" -h string:x-dunst-stack-tag:'bluetooth'
+        bluetoothctl connect $device >/dev/null & dunstify -i bluetooth-poweron -t 4000 -a "Bluetooth" "Connecting to: $chosen" -h string:x-dunst-stack-tag:'bluetooth'
         sleep 4
         dunstctl close
         if [[ `bluetoothctl info` =~ "Name: $chosen" ]]; then
@@ -103,12 +106,12 @@ check_case() {
         *)
             exit;;
     esac
-    main_menu
 }
 
 # Resources
-title='Bluetooth'
 icon=''
+icon_type='scan'
+icon_current='know-alt'
 
 path=$(dirname "$0")
 source $path/base.sh

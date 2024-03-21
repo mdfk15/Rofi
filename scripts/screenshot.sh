@@ -5,19 +5,22 @@
 #
 ####### Rofi Screenshot #######
 
+# Setup
+directory="/home/mdfk/registre/imagenes/capturas-pantalla/"
+
 # Status
 options() {
 
 	# Options
 	select="" #
-	window=""
+	window=""
 	screen=""
-	delay=""
+	delay=""
 	cancel=""
 	
 	# Variable passed to rofi
-	options="$select\n$window\n$screen\n$delay\n$cancel"
-	message="~/Imagenes/Capturas-pantalla/"
+	options="$select\n$window\n$screen\n$delay"
+	message=" ${timer}s"
 
 	n=0
 	for i in $(echo -e "$options"); do
@@ -28,14 +31,13 @@ options() {
 }
 
 setFilename() {
-  directory="/home/user/Imagenes/Capturas-pantalla/"
   filename="IMG_$(date +%Y%m%d_%H%M%S).jpg"
   filepath=$directory$filename
   [ -n "$delay_cmd" ] && sleep $timer || continue
 }
 
 notify() {
-  chosen=$(dunstify "$(echo -e 'Screenshot saved and copied to clipboard\nClick here to open')" -i accessories-screenshot --action="replyAction,reply")
+  chosen=$(dunstify -a "Screenshot" "$(echo -e 'Saved and copied to clipboard\nClick here to open')" -i $filepath --action="replyAction,reply")
   if [ $chosen == 2 ]
   then
     ristretto $filepath
@@ -67,15 +69,17 @@ check_case() {
 	esac
 }
 
+path=$(dirname "$0")
+source $path/base.sh
+
+
 # Resources
 title='Screenshot'
 icon=''
+icon_menu='iconvertical.rasi'
 
 # Timer
 timer=7
-
-path=$(dirname "$0")
-source $path/base.sh
 
 case $1 in
     --status)

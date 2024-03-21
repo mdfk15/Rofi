@@ -5,6 +5,14 @@
 #
 ####### Rofi Volume #######
 
+# Icons
+mic_on=''
+mic_off=''
+muted=''
+party='' #       
+child=''
+cancel=''
+
 # Status
 options() {
     # Status
@@ -17,38 +25,30 @@ options() {
     active=''
 
     # Option icons: 
-    if [[ $state =~ off ]]; then
-        volume=''
+    if [[ "$state" =~ off ]]; then
         [ -n "$urgent" ] && urgent+=",3" || urgent="-u 3"
-    else
-        volume=''
-        [ -n "$active" ] && active+=",3" || active="-a 3"
     fi
-    if [[ $mic_state =~ off ]]; then
-        mic=''
+    if [[ "$mic_state" == off ]]; then
+        mic="$mic_off"
     else
-        mic=''
+        mic="$mic_on"
     fi
-
-    party='' #
-    child=''
-    cancel=''
 
     # Rofi variables
-    options="$child\n$party\n$mic\n$volume\n$cancel"
-    message="Volume at $percentage - $state"
+    options="$child\n$party\n$mic\n$muted"
+    message=$(echo -e "Volume: $percentage\nPower: $state")
 
     n=0
     for i in $(echo -e "$options"); do
-        if [[ "$i" == "" ]] || [[ "$i" == "" ]] || [[ "$i" == "" ]]; then
-            [ -n "$active" ] && active+=",$n" || active="-a $n"
-        fi
+        #if [[ "$i" == "$child" ]] || [[ "$i" == "$party" ]]; then
+        #    [ -n "$active" ] && active+=",$n" || active="-a $n"
+        #fi
 
-        if [[ "$i" == "$cancel" ]]; then
-            [ -n "$urgent" ] && urgent+=",$n" || urgent="-u $n"
-        fi
+        #if [[ "$i" == "$cancel" ]]; then
+        #    [ -n "$urgent" ] && urgent+=",$n" || urgent="-u $n"
+        #fi
 
-        if [[ "$i" == "" ]]; then
+        if [[ "$i" == "$mic_on" ]]; then
             [ -n "$active" ] && active+=",$n" || active="-a $n"
         fi
 
@@ -60,12 +60,16 @@ options() {
             [ -n "$active" ] && active+=",$n" || active="-a $n"
         fi
 
+        if [[ "$i" == "$volume_on" ]]; then
+            [ -n "$active" ] && active+=",$n" || active="-a $n"
+        fi
+
         ((n+=1))
     done
 }
 
 handle_option() {
-    if [ $1 == 'volume' ]; then
+    if [ $1 == 'muted' ]; then
         amixer set Master toggle >/dev/null
     elif [ $1 == 'party' ]; then
         dunstify -a "Volume" "Inc: 70%" \
@@ -82,13 +86,12 @@ handle_option() {
     else
         exit
     fi
-    main_menu
 }
 
 check_case() {
     case $chosen in
-        $volume)
-            handle_option 'volume';;
+        $muted)
+            handle_option 'muted';;
         $child)
             handle_option 'child';;
         $party)

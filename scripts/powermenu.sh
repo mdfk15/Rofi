@@ -6,13 +6,15 @@
 ####### Rofi Powermenu #######
 
 # Timer
+path=~/.cache
 timer=6
 
 rofi_cmd() {
-  rofi -p "Powermenu" -theme "~/.config/rasi/powermenu" -dmenu $@ \
-    -mesg "Uptime `uptime -p | sed -e 's/up //g'`" \
+  rofi -p "Powermenu" -theme iconvertical -dmenu $@ \
+    -mesg "$message" \
     -hover-select -me-select-entry '' -me-accept-entry MousePrimary \
-    $selected_row $urgent
+    -theme-str "listview { lines : $lines; }" \
+    $urgent
 }
 
 # Options
@@ -21,17 +23,20 @@ reboot=""
 suspend=""
 logout=""
 lock=""
+uptime=""
 
 time_notify() {
   for N in $(seq $timer -1 1)
   do
-    dunstify -u critical -a "Power system" "$1 in $(($N)) Click to cancel!!!" -h string:x-dunst-stack-tag:"$1" --action="replyAction,reply" > $path/pm_forward &
-    sleep 1
+	  dunstify -u critical -a "$1 in $(($N))" "Click this notify to cancel!" -r 34420 --action="replyAction,reply" > $path/pm_forward &
+	  sleep 1
 	  if grep -Fxq 2 $path/pm_forward; then
 	  	killall sh
  	  fi
   done
 }
+
+message=$(echo -e "$(uptime -p | sed -e 's/up //g' -e 's/ hours/h/' -e 's/ days/d/' -e 's/ minutes/m/' -e 's/, /\\n/')")
 
 # Variable passed to rofi
 options="$shutdown\n$reboot\n$suspend\n$logout\n$lock"
@@ -42,6 +47,7 @@ for i in $(echo -e "$options"); do
   [[ "$i" == "$shutdown" ]] && selected_row="-selected-row $n"
   ((n+=1))
 done
+lines=$n
 chosen="$(echo -e "$options" | rofi_cmd $main)"
 
 case $chosen in

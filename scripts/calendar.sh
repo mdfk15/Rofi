@@ -34,7 +34,7 @@ info_menu() {
 
     case $chosen in
         $back)
-            message=$(cal | sed -z "s|$TODAY|<u><b>$TODAY</b></u>|1")
+            message=$(cal | sed -z "s|\s$TODAY\s| <u><b>$TODAY</b></u> |1")
             main_menu $icon_menu;;
         *)
             exit;;
@@ -43,9 +43,9 @@ info_menu() {
 
 handle_action() {
 	if [ "$DIFF" -ge 0 ]; then
-      message=$(cal "+$DIFF months")
+      		message=$(cal "+$DIFF months")
 	else
-      message=$(cal "$((-DIFF)) months ago")
+      		message=$(cal "$((-DIFF)) months ago")
 	fi
 }
 
@@ -62,19 +62,28 @@ check_case() {
         *)
             exit
     esac
+    today_check
     main_menu
 }
 
+today_check() {
+	if [[ "$message" =~ "$CURRENT_MONTH" ]]; then
+		message=$(cal | sed -z "s|\s$TODAY\s| <u><b>$TODAY</b></u> |1")
+	fi
+}
+
 # Resources
-DIFF=0
-TODAY=$(date '+%-d')
-message=$(cal | sed -z "s|$TODAY|<u><b>$TODAY</b></u>|1")
-
-title='Calendar'
-icon=''
-
 path=$(dirname "$0")
 source $path/base.sh
+
+DIFF=0
+TODAY=$(date '+%-d')
+CURRENT_MONTH=$(cal | head -1)
+message=$(cal | sed -z "s|\s$TODAY\s| <u><b>$TODAY</b></u> |1")
+
+title='Calendar'
+icon=''
+icon_menu='calendar.rasi'
 
 case $1 in
     --status)
