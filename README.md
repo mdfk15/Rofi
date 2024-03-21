@@ -1,7 +1,7 @@
 <div align="center"><h1>Rofi</h1>
 <p align="center">A collection of <a href="https://github.com/davatorium/rofi">Rofi</a> based custom <i>Applets</i>, <i>Launchers</i> & <i>Powermenus</i>.</p>
 
-![img](images/main-preview.png)
+![img](preview/main-preview.png)
 
 ## What is Rofi?
 
@@ -22,14 +22,14 @@ $ git clone https://github.com/mdfk15/Rofi.git
 
 ### Previews Widgets
 
-![img](images/widgets.gif)
+![img](preview/widgets.gif)
 
 <details>
 <summary><b>Wifi</b></summary>
 
 |Main menu|List menu|Confirm|
 |--|--|--|
-|![img](images/wireless/main.png)|![img](images/wireless/list.png)|![img](images/wireless/confirm.png)
+|![img](preview/wireless/main.png)|![img](preview/wireless/list.png)|![img](preview/wireless/confirm.png)
 
 </details>
 
@@ -38,7 +38,7 @@ $ git clone https://github.com/mdfk15/Rofi.git
 
 |Main menu|List menu|
 |--|--|
-|![img](images/bluetooth/main.png)|![img](images/bluetooth/list.png)
+|![img](preview/bluetooth/main.png)|![img](preview/bluetooth/list.png)
 
 </details>
 
@@ -47,7 +47,7 @@ $ git clone https://github.com/mdfk15/Rofi.git
 
 |Main menu|List menu|
 |--|--|
-|![img](images/musictl/main.png)|![img](images/musictl/list.png)
+|![img](preview/musictl/main.png)|![img](preview/musictl/list.png)
 
 </details>
 
@@ -56,7 +56,7 @@ $ git clone https://github.com/mdfk15/Rofi.git
 
 |Battery|Volume|Screenshot
 |--|--|--|
-|![img](images/battery.png)|![img](images/volume.png)|![img](images/screenshot.png)
+|![img](preview/battery.png)|![img](preview/volume.png)|![img](preview/screenshot.png)
 
 
 </details>
@@ -66,7 +66,7 @@ $ git clone https://github.com/mdfk15/Rofi.git
 
 |Main menu|List menu|
 |--|--|
-|![img](images/calendar/main.png)|![img](images/calendar/list.png)
+|![img](preview/calendar/main.png)|![img](preview/calendar/list.png)
 
 </details>
 
@@ -74,12 +74,12 @@ $ git clone https://github.com/mdfk15/Rofi.git
 
 |Powermenu|
 |--|
-|![img](images/powermenu.png)
+|![img](preview/powermenu.png)
 
 Then, execute launcher: ```$ rofi -show drun -theme /path/to/rasi/launcher.rasi```
 |Launcher|
 |--|
-|![img](images/launcher.png)
+|![img](preview/launcher.png)
 
 ## Notes
 - There's no install script, because I'd suggest using these files as templates rather than directly copying them (simply because they weren't designed to be cross-platform). If you would like to use these files, you can try doing the following manually:
