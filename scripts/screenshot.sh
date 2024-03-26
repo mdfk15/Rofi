@@ -37,7 +37,7 @@ setFilename() {
 }
 
 notify() {
-  chosen=$(dunstify -a "Screenshot" "$(echo -e 'Saved and copied to clipboard\nClick here to open')" -i $filepath --action="replyAction,reply")
+  chosen=$(notify-send -a "Screenshot" "$(echo -e 'Saved and copied to clipboard\nClick here to open')" -i $filepath --action="replyAction,reply")
   if [ $chosen == 2 ]
   then
     ristretto $filepath
@@ -76,7 +76,7 @@ source $path/base.sh
 # Resources
 title='Screenshot'
 icon=''
-icon_menu='iconvertical.rasi'
+icon_menu='vertical.rasi'
 
 # Timer
 timer=7

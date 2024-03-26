@@ -18,7 +18,7 @@ options() {
 }
 
 scanning_opt() {
-        dunstify -u low -i "$icon_name" -a "Wireless" "Scanning networks" -t 10000 -h string:x-dunst-stack-tag:"$title"
+        notify-send -i "$icon_name" -a "Wireless" "Scanning networks" -t 10000 -h string:x-dunst-stack-tag:"$title"
         nmcli -f SSID dev wifi | tail -n +2 | sed '/^--/d' > $path/wifi_list # SSID,BARS 
 
         # List variable pased to Rofi
@@ -62,8 +62,8 @@ element_option() {
 	net_ssid=$(echo "$chosen" | xargs)
 	[ -n "$net_ssid" ] || exit 
 	if [[ "$know" =~ "$net_ssid" ]]; then
-		dunstify -i "$icon_name" -a "Wireless" "Connecting to $net_ssid" -t 100000 -h string:x-dunst-stack-tag:"$title"
-    	    	nmcli device wifi connect "$net_ssid" && dunstify -i "$icon_name" -a "Wireless" "Connected to $net_ssid" -t 4000 -h string:x-dunst-stack-tag:"$title"
+		notify-send -i "$icon_name" -a "Wireless" "Connecting to $net_ssid" -t 100000 -h string:x-dunst-stack-tag:"$title"
+    	    	nmcli device wifi connect "$net_ssid" && notify-send -i "$icon_name" -a "Wireless" "Connected to $net_ssid" -t 4000 -h string:x-dunst-stack-tag:"$title"
     	#elif [[ "$chosen" =~ "Rescan" ]]; then
 	#	nmcli d wifi rescan
 	#	sleep 2
@@ -71,8 +71,8 @@ element_option() {
     	else
     	    passphrase=$(confirm_pass)
     	    if [[ -n "$passphrase" ]]; then
-		dunstify -i "$icon_name" -a "Wireless" "Connecting to $net_ssid" -t 100000 -h string:x-dunst-stack-tag:"$title"
-		connection_err=$((nmcli device wifi connect "$net_ssid" password "$passphrase") 2>&1) && dunstify -i "$icon_name" -a "Wireless" "Connected to $net_ssid" -t 4000 -h string:x-dunst-stack-tag:"$title"
+		notify-send -i "$icon_name" -a "Wireless" "Connecting to $net_ssid" -t 100000 -h string:x-dunst-stack-tag:"$title"
+		connection_err=$((nmcli device wifi connect "$net_ssid" password "$passphrase") 2>&1) && notify-send -i "$icon_name" -a "Wireless" "Connected to $net_ssid" -t 4000 -h string:x-dunst-stack-tag:"$title"
     	    else
     	        message="<span color='#f7768e'>Error, empty input</span>"
     	        menu_list
@@ -84,7 +84,7 @@ element_option() {
     	        message="<span color='#f7768e'>Error ${connection_err##*:}</span>"
     	        menu_list
 	else
-		dunstify -i "$icon_name" -a "Wireless" "Connected to $net_ssid" -t 10000 -h string:x-dunst-stack-tag:"$title"
+		notify-send -i "$icon_name" -a "Wireless" "Connected to $net_ssid" -t 10000 -h string:x-dunst-stack-tag:"$title"
 		exit 0
     	fi
 }

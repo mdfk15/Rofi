@@ -72,14 +72,16 @@ handle_option() {
     if [ $1 == 'muted' ]; then
         amixer set Master toggle >/dev/null
     elif [ $1 == 'party' ]; then
-        dunstify -a "Volume" "Inc: 70%" \
+        notify-send -a "Volume" "Inc: 70%" \
 		-i '~/.icons/volume-inc.png' \
-		-h string:x-dunst-stack-tag:'volume'
+		-h string:x-dunst-stack-tag:'volume' \
+ 		-h 'int:value:70' 
         amixer set Master 70% >/dev/null
     elif [ $1 == 'child' ]; then
-        dunstify -a "Volume" "Inc: 30%" \
+        notify-send -a "Volume" "Inc: 30%" \
 		-i '~/.icons/volume-dec.png' \
-		-h string:x-dunst-stack-tag:'volume'
+		-h string:x-dunst-stack-tag:'volume' \
+ 		-h 'int:value:30' 
         amixer set Master 30% >/dev/null
     elif [ $1 == 'mic' ]; then
         amixer set Capture toggle >/dev/null

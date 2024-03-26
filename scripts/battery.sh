@@ -72,15 +72,13 @@ fi
 # Options
 layout=`cat ${theme} | grep 'USE_ICON' | cut -d'=' -f2`
 if [[ "$layout" == 'NO' ]]; then
-	option_1=" Remaining ${percentage}%"
-	option_2=" $battery_status"
-	option_3=" Power Manager"
-	option_4=" Diagnose"
+	option_1=" $battery_status"
+	option_2=" Power Manager"
+	option_3=" Diagnose"
 else
-	option_1="$ICON_DISCHRG"
-	option_2="$ICON_CHRG"
-	option_3=""
-	option_4=""
+	option_1="$ICON_CHRG"
+	option_2=""
+	option_3=""
 fi
 
 # Rofi CMD
@@ -98,19 +96,17 @@ rofi_cmd() {
 
 # Pass variables to rofi dmenu
 run_rofi() {
-	echo -e "$option_1\n$option_2\n$option_3\n$option_4" | rofi_cmd
+	echo -e "$option_1\n$option_2\n$option_3" | rofi_cmd
 }
 
 # Execute Command
 run_cmd() {
 	polkit_cmd="pkexec env PATH=$PATH DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY"
 	if [[ "$1" == '--opt1' ]]; then
-		notify-send -u low " Remaining : ${percentage}%"
-	elif [[ "$1" == '--opt2' ]]; then
 		notify-send -u low "$ICON_CHRG Status : $battery_status"
-	elif [[ "$1" == '--opt3' ]]; then
+	elif [[ "$1" == '--opt2' ]]; then
 		xfce4-power-manager-settings
-	elif [[ "$1" == '--opt4' ]]; then
+	elif [[ "$1" == '--opt3' ]]; then
 		${polkit_cmd} alacritty -e powertop
 	fi
 }
@@ -122,12 +118,9 @@ case ${chosen} in
 		run_cmd --opt1
         ;;
     $option_2)
-		run_cmd --opt2
-        ;;
-    $option_3)
 		run_cmd --opt3
         ;;
-    $option_4)
+    $option_3)
 		run_cmd --opt4
         ;;
 esac

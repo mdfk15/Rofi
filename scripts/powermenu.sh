@@ -10,7 +10,7 @@ path=~/.cache
 timer=6
 
 rofi_cmd() {
-  rofi -p "Powermenu" -theme iconvertical -dmenu $@ \
+  rofi -p "Powermenu" -theme vertical -dmenu $@ \
     -mesg "$message" \
     -hover-select -me-select-entry '' -me-accept-entry MousePrimary \
     -theme-str "listview { lines : $lines; }" \
@@ -28,7 +28,7 @@ uptime=""
 time_notify() {
   for N in $(seq $timer -1 1)
   do
-	  dunstify -u critical -a "$1 in $(($N))" "Click this notify to cancel!" -r 34420 --action="replyAction,reply" > $path/pm_forward &
+	  notify-send -u critical -i powermgr -a "$1 in $(($N))" "Click this notify to cancel!" -r 34420 --action="replyAction,reply" > $path/pm_forward &
 	  sleep 1
 	  if grep -Fxq 2 $path/pm_forward; then
 	  	killall sh

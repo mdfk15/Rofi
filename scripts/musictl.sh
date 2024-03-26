@@ -103,6 +103,7 @@ element_option() {
             fi
             ((n+=1))
         done < <(echo -e "$element_list")
+	songinfo
         current="$(mpc --format '%title%' current)"
 	message=$(mpc --format "<b><span foreground='white'>%title%</span></b>\n%artist%\n%album%" current)
         handle_option 'list'

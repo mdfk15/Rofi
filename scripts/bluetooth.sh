@@ -60,7 +60,7 @@ handle_option() {
     # Scan menu
     elif [ $1 == 'list' ]; then
         if [[ $status =~ 'Powered: yes' ]]; then
-            dunstify -i bluetooth-connected -a "Bluetooth" "Scanning devices" -h string:x-dunst-stack-tag:'bluetooth'
+            notify-send -i bluetooth-connected -a "Bluetooth" "Scanning devices" -h string:x-dunst-stack-tag:'bluetooth'
             bluetoothctl scan on >/dev/null
             sleep 5
             bluetoothctl scan off
@@ -70,7 +70,7 @@ handle_option() {
             dunstctl close
             menu_list
         else
-            dunstify -i bluetooth-poweron -a "Bluetooth" "Power up controller before!" -h string:x-dunst-stack-tag:'bluetooth'
+            notify-send -i bluetooth-poweron -a "Bluetooth" "Power up controller before!" -h string:x-dunst-stack-tag:'bluetooth'
         fi
     else
         exit
@@ -81,7 +81,7 @@ handle_option() {
 element_option() {
     if [[ -n $chosen ]]; then
         device=$(bluetoothctl devices | grep "$chosen" | cut -d ' ' -f 2)
-        bluetoothctl connect $device >/dev/null & dunstify -i bluetooth-poweron -t 4000 -a "Bluetooth" "Connecting to: $chosen" -h string:x-dunst-stack-tag:'bluetooth'
+        bluetoothctl connect $device >/dev/null & notify-send -i bluetooth-poweron -t 4000 -a "Bluetooth" "Connecting to: $chosen" -h string:x-dunst-stack-tag:'bluetooth'
         sleep 4
         dunstctl close
         if [[ `bluetoothctl info` =~ "Name: $chosen" ]]; then

@@ -18,7 +18,7 @@ options() {
     list=''
 
     # Rofi variables
-    options="$prev\n$list\n$next"
+    options="$prev\n$next"
 }
 
 
