@@ -52,11 +52,14 @@ element-icon {
 element selected.active,
 element selected.normal,
 element selected.urgent {
-	background-color 	: var(background-alt);
+	background-color 	: var(background);
     	text-color	 	: var(selected);
 }
 
-element-text normal.active {
-  text-color			: var(selected);
-  background-color		: transparent;
+element normal.active,
+element alternate.active,
+element alternate.normal,
+element normal.normal, {
+	background-color 	: var(element);
+    	text-color	 	: var(foreground-alt);
 }
