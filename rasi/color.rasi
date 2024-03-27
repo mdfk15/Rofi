@@ -10,7 +10,7 @@
     white		: #AAAAAA;
     black     		: #000000;
     grey      		: grey;
-    grey-alt 		: grey/4%;
+    grey-alt 		: grey/3%;
     gold      		: #FFF3B0;
     yellow    		: #e0af68;
     amber     		: #EFCF9F;
@@ -22,13 +22,12 @@
     magenta   		: #9a7ecc;
     red       		: #f7768e;
 
-    background:                 #2A2E3477;
-    background-alt:             #00000050;
-    /* background-alt:             black/60%; */
-    foreground:                 white/65%;
-    foreground-alt:		white/80%;
-    selected:                   var(amber);
+    background		: #2A2E3477;
+    background-alt	: #00000050;
+    foreground		: white/65%;
+    foreground-alt	: white/80%;
+    selected		: var(amber);
     element		: var(grey-alt);
-    active:                     var(grey);
-    urgent:                     var(grey-dark);
+    active		: var(grey);
+    urgent		: var(grey-dark);
 }

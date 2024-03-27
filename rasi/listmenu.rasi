@@ -8,6 +8,8 @@ configuration {
 
 /*****----- Head -----*****/
 
+coverbox { border-radius : 0px; }
+
 /*****----- Listview -----*****/
 listview {
 	spacing		 	: 4px;
@@ -20,10 +22,10 @@ listview {
 scrollbar {
 	margin        	 	: 5px 0px 5px 0px;
   	handle-width  	 	: 4px;
-  	handle-color  	 	: var(background-alt);
+  	handle-color  	 	: var(background);
   	border-color  	 	: black;
   	border-radius 	 	: 12px;
-  	background-color 	: var(background);
+  	background-color 	: var(background-alt);
 }
 
 element {
