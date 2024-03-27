@@ -12,6 +12,7 @@ options() {
     dunstctl close
     title='Music'
     icon=''
+    selected_row='2'
     status=$(mpc)
     title="$(mpc status '%songpos%/%length%')"
     cover='170px' # Cover art images size

@@ -36,7 +36,7 @@ time_notify() {
   done
 }
 
-message=$(echo -e "$(uptime -p | sed -e 's/up //g' -e 's/ hours/h/' -e 's/ days/d/' -e 's/ minutes/m/' -e 's/, /\\n/')")
+message=$(echo -e "$(uptime -p | sed -e 's/up //g' -e 's/ hours/h/' -e 's/ hour/h/' -e 's/ days/d/' -e 's/ minutes/m/' -e 's/, /\\n/')\n\n $timer")
 
 # Variable passed to rofi
 options="$shutdown\n$reboot\n$suspend\n$logout\n$lock"

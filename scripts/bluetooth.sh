@@ -13,7 +13,7 @@ options() {
     	dev_battery="$(bluetoothctl info | grep 'Battery Percentage'| awk '{print $(NF)}' | tr -d '()')"
     	dev_mac=$(bluetoothctl info | head -n 1 | cut -d ' ' -f 2)
     	dev_know=$(bluetoothctl devices | grep Device | cut -d ' ' -f 3-)
-	current_dev=$(echo -e "$dev_now\nBattery: $dev_battery%")
+	current_dev=$(echo -e "$dev_now\n $dev_battery%")
 
     	# Function to check power, connection and others
     	# status_options <icon-on> <icon-off>
@@ -85,7 +85,8 @@ element_option() {
         sleep 4
         dunstctl close
         if [[ `bluetoothctl info` =~ "Name: $chosen" ]]; then
-            continue
+	    notify-send -i bluetooth-poweron -t 4000 -a "Bluetooth" "Connected to: $chosen" -h string:x-dunst-stack-tag:'bluetooth'
+            exit
         else
             message="<span color='#f7768e'>Error in connection</span>"
             menu_list

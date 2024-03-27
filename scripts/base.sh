@@ -29,7 +29,7 @@ status_options() {
 	## connection
 	if  [[ $status =~ full ]] || [[ -n "$dev_now" ]] ; then
 	    [ -n "$active" ] && active+=",0" || active="-a 0"
-	    [ -n "$current" ] && [ -z "$message" ] && message="Connected to: $current" || message="Connected to: $current_dev"
+	    [ -n "$current" ] && [ -z "$message" ] && message=" $current" || message=" $current_dev"
 	    connection=$1
 	else
 	    message='Disconnected'
@@ -46,8 +46,10 @@ status_options() {
 
 rofi_cmd() {
     if [ $1 == 'icon' ]; then
+	    [ -z "$selected_row" ] && selected_row='0'
 	    rofi -p "$title" -theme $icon_menu -dmenu $extra_opt \
                 -mesg "$message" $active $urgent \
+        	-selected-row "$selected_row" \
                 -theme-str "textbox-prompt-colon {str: \"$icon\"; }" \
                 -theme-str "window {$window_opt}" \
                 -theme-str "coverbox {$cover_opt}" \
@@ -82,21 +84,15 @@ menu_list() {
     	((lines+=1))
     	if [ $lines -gt 12 ]; then
 		lines=12
-    	    #if ! [ $(($lines%2)) == 0 ]; then
-    	    #    ((lines+=1))
-    	    #fi
-    	    #lines=$((lines/2))
     	fi
     	
     	n=1
     	while read line; do
     	    if [[ "$current" == "$line" ]] || [[ "$dev_now" == "$line" ]]; then
     	        [ -n "$active" ] && active+=",$n" || active="-a $n"
-		#elements+="$line\0icon\x1f$icon_current\n"
 		elements+="${line%:*}\0icon\x1f$icon_current\x1fmeta\x1f${line#*:}\n"
 	    else
 		elements+="${line%:*}\0icon\x1f$icon_type\x1fmeta\x1f${line#*:}\n"
-		#elements+="$line\0icon\x1f$icon_type\n"
     	    fi
     	    ((n+=1))
     	done < <(echo -e "$element_list")
@@ -109,6 +105,7 @@ menu_list() {
 	[ -z "$chosen" ] && exit
     	case "$chosen" in
     	    'Back')
+		    selected_row='0'
 		    message='';;
     	    'Exit')
 		    exit 0;;

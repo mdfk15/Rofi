@@ -14,7 +14,7 @@ options() {
 	# Options
 	select="" #
 	window=""
-	screen=""
+	screen=""
 	delay=""
 	cancel=""
 	
