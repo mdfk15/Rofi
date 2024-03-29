@@ -13,7 +13,7 @@ options() {
     	dev_battery="$(bluetoothctl info | grep 'Battery Percentage'| awk '{print $(NF)}' | tr -d '()')"
     	dev_mac=$(bluetoothctl info | head -n 1 | cut -d ' ' -f 2)
     	dev_know=$(bluetoothctl devices | grep Device | cut -d ' ' -f 3-)
-	current_dev=$(echo -e "$dev_now\n $dev_battery%")
+	[ -n "$dev_battery" ] && current_dev=$(echo -e "$dev_now\n $dev_battery%") || current_dev="$dev_now"
 
     	# Function to check power, connection and others
     	# status_options <icon-on> <icon-off>

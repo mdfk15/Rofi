@@ -36,7 +36,7 @@ time_notify() {
   done
 }
 
-message=$(echo -e "$(uptime -p | sed -e 's/up //g' -e 's/ hours/h/' -e 's/ hour/h/' -e 's/ days/d/' -e 's/ minutes/m/' -e 's/, /\\n/')\n\n $timer")
+message=$(echo -e "$(uptime -p | sed -e 's/up //g; s/ days\| day/d/; s/ hours\| hour/h/; s/ minutes\| minute/m/; s/, /\\n/')\n\n $timer")
 
 # Variable passed to rofi
 options="$shutdown\n$reboot\n$suspend\n$logout\n$lock"
@@ -62,7 +62,7 @@ case $chosen in
       kill $(pgrep -f "Power system suspend in 1 Click to cancel!!!")
       systemctl suspend ;;
     $logout)
-      time_notify "poweroff"
+      time_notify "logout"
       pkill -KILL -u $(whoami) ;;
     $lock)
       dm-tool switch-to-greeter;;
