@@ -1,5 +1,5 @@
 <div align="center"><h1>Rofi</h1>
-<p align="center">A collection of <a href="https://github.com/davatorium/rofi">Rofi</a> based custom <i>Applets</i>, <i>Launchers</i> & <i>Powermenus</i>.</p>
+<p align="center">A collection of <a href="https://github.com/davatorium/rofi">Rofi</a> based custom <i>Launcher</i>, <i>Powermenu</i> & <i>Applets</i>.</p>
 
 ![img](preview/main-preview.png)
 
@@ -21,16 +21,24 @@
 $ git clone https://github.com/mdfk15/Rofi.git
 ```
 
-### Previews Widgets
+### Showcase
 
 ![img](preview/widgets.gif)
 
 <details>
 <summary><b>Wifi</b></summary>
 
-|Main & Confirm|List|
-|:--:|--|
-|<table><tr><th>![img](preview/wireless/main.png)</th></tr><tr><td>![img](preview/wireless/confirm.png)</td></tr></table>|<table><tr><th>![img](preview/wireless/list.png)</th></tr></table>|
+|Main menu|
+|--|
+|![img](preview/wireless/main.png)|
+
+|List menu|
+|--|
+|![img](preview/wireless/list.png)|
+
+|Password|
+|--|
+|![img](preview/wireless/confirm.png)|
 
 </details>
 
@@ -62,22 +70,12 @@ $ git clone https://github.com/mdfk15/Rofi.git
 
 </details>
 
-
 <details>
-<summary><b>Calendar</b></summary>
+<summary><b>Screenshot, Powermenu & Calendar</b></summary>
 
-|Calendar|
-|--|
-|![img](preview/calendar/main.png)|
-
-</details>
-
-<details>
-<summary><b>Screenshot and Powermenu</b></summary>
-
-|Screenshot|Powermenu|
-|--|--|
-|![img](preview/screenshot.png)|![img](preview/powermenu.png)|
+|Screenshot|Powermenu|Calendar|
+|--|--|--|
+|![img](preview/screenshot.png)|![img](preview/powermenu.png)|![img](preview/calendar/main.png)|
 
 </details>
 
@@ -93,4 +91,7 @@ Then, execute launcher: ```$ rofi -show drun -theme /path/to/rasi/launcher.rasi`
     - install `/rasi/` to `~/.config/rofi`
     - install `/scripts/` to `~/.config/scripts/`
     - install `/icons/` to `~/.icons/`
-- Also you can check my [dotfiles](https://github.com/mdfk15/dotfiles)
+- To run widgets you can execute the corresponding script.
+    - ```sh <path-to-script>```
+    - Also you can check my [dotfiles](https://github.com/mdfk15/dotfiles) for an implementation example on Qtile DE to inspire your own configuration.
+- These widget are inspired by [@adi1090](https://github.com/adi1090x/rofi).
