@@ -29,7 +29,7 @@ status_options() {
 	## connection
 	if  [[ $status =~ full ]] || [[ -n "$dev_now" ]] ; then
 	    [ -n "$active" ] && active+=",0" || active="-a 0"
-	    [ -n "$current" ] && [ -z "$message" ] && message=" $current" || message=" $current_dev"
+	    [ -n "$current_dev" ] && [ -z "$message" ] && message=" $current_dev"
 	    connection=$1
 	else
 	    message='Disconnected'
@@ -45,29 +45,21 @@ status_options() {
 }
 
 rofi_cmd() {
-    if [ $1 == 'icon' ]; then
-	    [ -z "$selected_row" ] && selected_row='0'
-	    rofi -p "$title" -theme $icon_menu -dmenu $extra_opt \
-                -mesg "$message" $active $urgent \
-        	-selected-row "$selected_row" \
-                -theme-str "textbox-prompt-colon {str: \"$icon\"; }" \
-                -theme-str "window {$window_opt}" \
-                -theme-str "coverbox {$cover_opt}" \
-                -theme-str "inputbar {$inputbar_opt}" \
-                -theme-str "textbox {$message_opt}"
-    elif [ $1 ==  'list' ]; then
-	    [ -z "$selected_row" ] && selected_row='1'
-	    rofi -p "$title" -theme $list_menu -dmenu \
-		-mesg "$message" $active $urgent \
-		-i \
-        	-selected-row "$selected_row" \
-        	-theme-str "textbox-prompt-colon {str: \"$icon\"; }" \
-        	-theme-str "listview {lines: $lines; }" \
-        	-theme-str "inputbar {$inputbar_opt}" \
-        	-theme-str "window {$window_opt}" \
-        	-theme-str "coverbox {$cover_opt}" \
-        	-theme-str "textbox {$message_opt}"
-    fi
+	cmd='rofi -p "$title" -dmenu -theme-str "textbox-prompt-colon {str: \"$icon\"; }" $active $urgent'
+    	if [ $1 == 'icon' ]; then
+    	        [ -z "$selected_row" ] && selected_row='0'
+    	        cmd+=' -theme $icon_menu -selected-row  "$selected-row"'
+    	elif [ $1 ==  'list' ]; then
+    	        [ -z "$selected_row" ] && selected_row='1'
+    	        cmd+=' -theme $list_menu -selected-row  "$selected-row" -i'
+    	fi
+    	[ -n "$message" ] && cmd+=' -mesg "$message"'
+    	[ -n "$window_opt" ] && cmd+=' -theme-str "window {$window_opt}"'
+    	[ -n "$cover_opt" ] && cmd+=' -theme-str "coverbox {$cover_opt}"'
+    	[ -n "$inputbar_opt" ] && cmd+=' -theme-str "inputbar {$inputbar_opt}"'
+    	[ -n "$message_opt" ] && cmd+=' -theme-str "textbox {$message_opt}"'
+    	[ -n "$listview" ] && cmd+=' -theme-str "listview {lines: $lines; }"'
+    	eval "$cmd"
 }
 
 menu_list() {

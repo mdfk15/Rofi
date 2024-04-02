@@ -11,10 +11,18 @@ options() {
 	icon=''
     	status=$(nmcli g)
     	current=$(nmcli -t -f NAME c show --active | grep -v lo)
+	interface=$(ip -br a | grep -v lo | awk '{print $1}')
+	ipv4=$(ip -4 -br a | grep -v lo | awk '{print $3}')
+	ipv6=$(ip -6 -br a | grep -v lo | awk '{print $3}')
 
     	# Function to check power, connection and others
     	# Arg1 <icon-on> Arg2 <icon-offve>
     	status_options  
+	echo current: $interface
+	[ -n "$current" ] && title="$current" || title="$interface"
+	[ -n "$ipv4" ] && message+="$ipv4"
+	[ -n "$ipv6" ] && message+="\n$ipv6"
+	message=$(echo -e "$message")
 }
 
 scanning_opt() {
@@ -23,11 +31,12 @@ scanning_opt() {
 
         # List variable pased to Rofi
         element_list="$(cat $path/wifi_list)"
-	title='Scan list'
+    	title=$(nmcli -t -f NAME c show --active | grep -v lo)
 }
 
 handle_option() {
     if [ $1 == 'connection' ]; then
+	message=''
         if [[ $status =~ disconnected ]]; then
             nmcli dev connect wlp58s0 >/dev/null
             sleep 1

@@ -26,7 +26,7 @@ options() {
 
     # Option icons: 
     if [[ "$state" =~ off ]]; then
-        [ -n "$urgent" ] && urgent+=",3" || urgent="-u 3"
+    	icon=''
     fi
     if [[ "$mic_state" == off ]]; then
         mic="$mic_off"
@@ -36,7 +36,8 @@ options() {
 
     # Rofi variables
     options="$child\n$party\n$mic\n$muted"
-    message=$(echo -e "Volume: $percentage\nPower: $state")
+    [ -n "$percentage" ] && title="Volume $percentage" || title='Volume'
+    #message=$(echo -e "Power: $state")
 
     n=0
     for i in $(echo -e "$options"); do
@@ -48,19 +49,21 @@ options() {
         #    [ -n "$urgent" ] && urgent+=",$n" || urgent="-u $n"
         #fi
 
+        if [[ "$child" == "$i" ]] && [[ ${percentage%*%} -le 30 ]]; then
+            [ -n "$active" ] && active+=",$n" || active="-a $n"
+	    icon=''
+        elif [[ "$i" == "$party" ]] && [[ ${percentage%*%} -ge 70 ]]; then
+            [ -n "$active" ] && active+=",$n" || active="-a $n"
+	    icon=''
+        elif [[ ${percentage%*%} -lt 70 ]] && [[ ${percentage%*%} -gt 30 ]]; then
+	    icon=''
+        fi
+
         if [[ "$i" == "$mic_on" ]]; then
             [ -n "$active" ] && active+=",$n" || active="-a $n"
         fi
 
-        if [[ "$i" == "$party" ]] && [[ $percentage > 50% ]]; then
-            [ -n "$active" ] && active+=",$n" || active="-a $n"
-        fi
-        
-        if [[ "$i" == "$child" ]] && [[ $percentage < 51% ]]; then
-            [ -n "$active" ] && active+=",$n" || active="-a $n"
-        fi
-
-        if [[ "$i" == "$volume_on" ]]; then
+        if [[ "$i" == "$muted" ]] && [[ "$state" =~ off ]]; then
             [ -n "$active" ] && active+=",$n" || active="-a $n"
         fi
 

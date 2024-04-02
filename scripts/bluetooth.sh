@@ -7,13 +7,13 @@
 
 # Functions
 options() {
-	title='Bluetooth'
     	status=$(bluetoothctl show)
     	dev_now="$(bluetoothctl info | grep Name | cut -d ' ' -f 2-)"
     	dev_battery="$(bluetoothctl info | grep 'Battery Percentage'| awk '{print $(NF)}' | tr -d '()')"
     	dev_mac=$(bluetoothctl info | head -n 1 | cut -d ' ' -f 2)
     	dev_know=$(bluetoothctl devices | grep Device | cut -d ' ' -f 3-)
-	[ -n "$dev_battery" ] && current_dev=$(echo -e "$dev_now\n $dev_battery%") || current_dev="$dev_now"
+	[ -n "$dev_now" ] && title="$dev_now" || title='Bluetooth'
+	[ -n "$dev_battery" ] && message=$(echo -e " $dev_battery%")
 
     	# Function to check power, connection and others
     	# status_options <icon-on> <icon-off>
@@ -62,7 +62,7 @@ handle_option() {
         if [[ $status =~ 'Powered: yes' ]]; then
             notify-send -i bluetooth-connected -a "Bluetooth" "Scanning devices" -h string:x-dunst-stack-tag:'bluetooth'
             bluetoothctl scan on >/dev/null
-            sleep 5
+            sleep 7
             bluetoothctl scan off
             sleep 0.5
 
