@@ -54,7 +54,7 @@ element-icon {
 element selected.active,
 element selected.normal,
 element selected.urgent {
-	background-color 	: var(background);
+	background-color 	: var(selected-alt);
     	text-color	 	: var(selected);
 }
 
