@@ -8,9 +8,9 @@ configuration {
 
 /*****----- Head -----*****/
 
-coverbox { children : [ "message", "inputbar" ]; }
+coverbox { children : [ "message", "inputbar" ]; padding : 0px; spacing : 0px; }
 
-inputbar { spacing : 0px; children : [ "entry", "textbox-prompt-colon" ]; }
+inputbar { padding : calc( 0.5% ); spacing : 0px; children : [ "entry", "textbox-prompt-colon" ]; }
 
 textbox-prompt-colon {
 	font			: "Iosevka Nerd Font 16";
@@ -35,3 +35,4 @@ entry {
   	horizontal-align    	: 0.5;
 }
 
+textbox { padding: calc( 1.5% ) calc( 1% ); }

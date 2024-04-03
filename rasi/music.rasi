@@ -3,11 +3,14 @@
 /*****----- Main Box -----*****/
 coverbox {
     border-radius:		0px;
+    padding		: 0px;
+    spacing		: 0px;
 }
 
 /*****----- Inputbar -----*****/
 inputbar {
     background-color:           var(background);
+    padding		: calc( 1% );
 }
 
 prompt {
