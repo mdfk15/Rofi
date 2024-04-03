@@ -33,9 +33,9 @@ handle_option() {
     # Switch connection
     if [ $1 == 'connection' ]; then
         # No device connected
-        if [[ -z $dev_now ]]; then
+        if [[ -z "$dev_now" ]]; then
             # check recent device disconnected
-            if [[ -z $dev_mac_tmp ]]; then
+            if [[ -z "$dev_mac_tmp" ]]; then
                 # Know devices menu
                 element_list=$dev_know
                 menu_list
@@ -60,14 +60,13 @@ handle_option() {
     # Scan menu
     elif [ $1 == 'list' ]; then
         if [[ $status =~ 'Powered: yes' ]]; then
-            notify-send -i bluetooth-connected -a "Bluetooth" "Scanning devices" -h string:x-dunst-stack-tag:'bluetooth'
-            bluetoothctl scan on >/dev/null
-            sleep 7
-            bluetoothctl scan off
+            notify-send -i bluetooth-connected -a "Bluetooth" "Scanning devices" -h string:x-dunst-stack-tag:'bluetooth' -t 10000
+            bluetoothctl --timeout 10 scan on >/dev/null
             sleep 0.5
 
             element_list=$(bluetoothctl devices | cut -d ' ' -f 3-)
             dunstctl close
+	    #list_menu='listmenu-entry.rasi'
             menu_list
         else
             notify-send -i bluetooth-poweron -a "Bluetooth" "Power up controller before!" -h string:x-dunst-stack-tag:'bluetooth'
@@ -79,10 +78,11 @@ handle_option() {
 }
 
 element_option() {
-    if [[ -n $chosen ]]; then
+    if [[ -n "$chosen" ]]; then
         device=$(bluetoothctl devices | grep "$chosen" | cut -d ' ' -f 2)
-        bluetoothctl connect $device >/dev/null & notify-send -i bluetooth-poweron -t 4000 -a "Bluetooth" "Connecting to: $chosen" -h string:x-dunst-stack-tag:'bluetooth'
-        sleep 4
+	notify-send -i bluetooth-poweron -t 4000 -a "Bluetooth" "Connecting to: $chosen" -h string:x-dunst-stack-tag:'bluetooth'
+	[[ ! "$chosen" =~ "$dev_know" ]] && bluetoothctl pair "$device" > /dev/null
+        bluetoothctl connect "$device" > /dev/null
         dunstctl close
         if [[ `bluetoothctl info` =~ "Name: $chosen" ]]; then
 	    notify-send -i bluetooth-poweron -t 4000 -a "Bluetooth" "Connected to: $chosen" -h string:x-dunst-stack-tag:'bluetooth'

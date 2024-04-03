@@ -48,17 +48,18 @@ rofi_cmd() {
 	cmd='rofi -p "$title" -dmenu -theme-str "textbox-prompt-colon {str: \"$icon\"; }" $active $urgent'
     	if [ $1 == 'icon' ]; then
     	        [ -z "$selected_row" ] && selected_row='0'
-    	        cmd+=' -theme $icon_menu -selected-row  "$selected-row"'
+    	        cmd+=' -theme $icon_menu -selected-row  "$selected_row"'
     	elif [ $1 ==  'list' ]; then
     	        [ -z "$selected_row" ] && selected_row='1'
-    	        cmd+=' -theme $list_menu -selected-row  "$selected-row" -i'
+    	        cmd+=' -theme $list_menu -selected-row  "$selected_row" -i'
     	fi
     	[ -n "$message" ] && cmd+=' -mesg "$message"'
     	[ -n "$window_opt" ] && cmd+=' -theme-str "window {$window_opt}"'
     	[ -n "$cover_opt" ] && cmd+=' -theme-str "coverbox {$cover_opt}"'
     	[ -n "$inputbar_opt" ] && cmd+=' -theme-str "inputbar {$inputbar_opt}"'
     	[ -n "$message_opt" ] && cmd+=' -theme-str "textbox {$message_opt}"'
-    	[ -n "$listview" ] && cmd+=' -theme-str "listview {lines: $lines; }"'
+    	[ -n "$listview" ] && cmd+=' -theme-str "listview {$listview_opt}"'
+    	[ -n "$lines" ] && cmd+=' -theme-str "listview {lines: $lines; }"'
     	eval "$cmd"
 }
 
@@ -97,7 +98,7 @@ menu_list() {
 	[ -z "$chosen" ] && exit
     	case "$chosen" in
     	    'Back')
-		    selected_row='0'
+		    lines=''
 		    message='';;
     	    'Exit')
 		    exit 0;;

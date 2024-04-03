@@ -71,6 +71,7 @@ handle_option() {
 	title='Playlist'
         cover='55px'
 	icon=''
+	selected_row=1
 	previewname="$HOME/.config/ncmpcpp/previews/$(mpc --format %album% current | base64).png"
 	[ -e "$previewname" ] || previewname=$HOME/.config/ncmpcpp/previews/art.png
 
