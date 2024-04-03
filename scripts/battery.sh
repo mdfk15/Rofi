@@ -30,27 +30,28 @@ options() {
 	# Charging Status
 	active=""
 	urgent=""
-	if [[ $battery_status = *"charging"* ]]; then
-	    active="-a 1"
-	    ICON_CHRG=""
-	    ICON=''
-	elif [[ $battery_status = *"full"* ]]; then
-	    active="-u 1"
-	    ICON_CHRG=""
-	else
+	if [[ $battery_status = *"discharging"* ]]; then
 	    urgent="-u 1"
 	    ICON_CHRG=""
 	    ICON=''
+	elif [[ $battery_status = *"full"* ]]; then
+	    active="-u 1"
+	    ICON_CHRG=""
+	    ICON=""
+	else
+	    active="-a 1"
+	    ICON_CHRG=""
+	    ICON=''
 	fi
 
 	option_1="$ICON_CHRG"
 	option_2=""
 	option_3=""
 
-	title="$battery_status"
+	#title="$ICON"
 	icon=$ICON
 	options="$option_1\n$option_2\n$option_3"
-	message=$(echo -e "$ICON ${percentage}\n${time}")
+	title=$(echo -e "$ICON ${percentage}\n${time}")
 }
 
 time_notify() {
@@ -93,9 +94,9 @@ path=$(dirname "$0")
 source $path/base.sh
 
 # Paramenters
-icon_menu='vertical.rasi'
+icon_menu='horizontal.rasi'
 message_opt='font:"JetBrains Mono Nerd Font 12";'
-window_opt='location : northeast; y-offset : 50px; x-offset : -30px;'
+window_opt='location : northeast; width : 320px; y-offset : 50px; x-offset : -05px;'
 
 # Timer
 timer=6

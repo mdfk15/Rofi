@@ -36,7 +36,7 @@ options() {
 
     # Rofi variables
     options="$child\n$party\n$mic\n$muted"
-    [ -n "$percentage" ] && title="Volume $percentage" || title='Volume'
+    [ -n "$percentage" ] && title="$percentage" || title='Volume'
     #message=$(echo -e "Power: $state")
 
     n=0
@@ -111,12 +111,14 @@ check_case() {
     main_menu
 }
 
+path=$(dirname "$0")
+source $path/base.sh
+
 # Resources
 title='Volume'
 icon=''
-
-path=$(dirname "$0")
-source $path/base.sh
+icon_menu='horizontal.rasi'
+window_opt='location : northeast; y-offset : 50px; x-offset : -05px;'
 
 case $1 in
     --status)
