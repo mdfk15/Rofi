@@ -22,7 +22,7 @@ listview {
 scrollbar {
 	margin        	 	: 5px 0px 5px 0px;
   	handle-width  	 	: 4px;
-  	handle-color  	 	: var(background);
+  	handle-color  	 	: var(foreground);
   	border-color  	 	: black;
   	border-radius 	 	: 12px;
   	background-color 	: var(background-alt);

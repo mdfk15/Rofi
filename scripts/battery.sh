@@ -11,6 +11,7 @@ options() {
 	battery_device="`upower -e | grep BAT`"
 	battery="`upower -i $battery_device | grep native-path | awk -F: '{print $2}' | xargs`"
 	battery_status="`upower -i $battery_device | grep state | awk -F: '{print $2}' | xargs`"
+	battery_performance="$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor)"
 	percentage="`upower -i $battery_device | grep percentage | awk -F: '{print $2}' | xargs`"
 	time="`upower -i $battery_device | grep -E 'time to empty|time to full' | awk -F: '{print $2}' | sed -e 's/ minutes\| minute/m/; s/ hours\| hour/h/' | xargs`"
 
@@ -31,27 +32,39 @@ options() {
 	active=""
 	urgent=""
 	if [[ $battery_status = *"discharging"* ]]; then
-	    urgent="-u 1"
-	    ICON_CHRG=""
+	    urgent="-u 0"
+	    ICON_CHRG=''
 	    ICON=''
 	elif [[ $battery_status = *"full"* ]]; then
-	    active="-u 1"
+	    active="-u 0"
 	    ICON_CHRG=""
-	    ICON=""
+	    ICON=''
 	else
-	    active="-a 1"
-	    ICON_CHRG=""
+	    ICON_CHRG=''
 	    ICON=''
 	fi
 
+	if [[ "$battery_performance" == 'performance' ]];then
+		ICON_PERF=''
+	elif [[ "$battery_performance" == 'powersave' ]];then
+		ICON_PERF=''
+	fi
+
 	option_1="$ICON_CHRG"
-	option_2=""
+	option_2="$ICON_PERF"
 	option_3=""
 
 	#title="$ICON"
 	icon=$ICON
 	options="$option_1\n$option_2\n$option_3"
 	title=$(echo -e "$ICON ${percentage}\n${time}")
+}
+
+handle_power() {
+	[[ "$battery_performance" == 'powersave' ]] && governor='performance' || governor='powersave'
+	notify-send -a 'CPU performance' "Status: $battery_performance" -r 2280
+	echo "$governor" | ${polkit_cmd} tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+	notify-send -a 'CPU performance' "Changin to $(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor)" -r 2280
 }
 
 time_notify() {
@@ -70,7 +83,8 @@ run_cmd() {
 	if [[ "$1" == '--opt1' ]]; then
 		notify-send -u low "$ICON_CHRG Status : $battery_status"
 	elif [[ "$1" == '--opt2' ]]; then
-		xfce4-power-manager-settings
+		handle_power
+		#xfce4-power-manager-settings
 	elif [[ "$1" == '--opt3' ]]; then
 		${polkit_cmd} alacritty -e htop
 	fi

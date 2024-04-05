@@ -5,7 +5,7 @@ configuration { fixed-num-lines : false; }
 /*****----- Main Window -----*****/
 window {
     	location		: east;
-    	width			: 330px;
+    	width			: 340px;
 	x-offset		: -10px;
     	y-offset		: 0px;
 	padding			: 0px;

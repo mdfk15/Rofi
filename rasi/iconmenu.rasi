@@ -61,7 +61,7 @@ coverbox {
     orientation:		vertical;
     expand:			false;
     spacing:                    calc( 2.5% );
-    padding:                     calc( 1% ) calc( 1% );
+    padding:                     calc( 1% ) calc( 0.8% );
     background-color:           transparent;
     border-radius:		10px;
     children:                   [ "inputbar", "message" ];
