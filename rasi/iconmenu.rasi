@@ -14,7 +14,7 @@ configuration {
     hover-select		: true;
     me-accept-entry		: "MousePrimary";
     me-select-entry		: "";
-    fixed-num-lines : false;
+    fixed-num-lines		: false;
 }
 
 @import "color.rasi"

@@ -101,11 +101,10 @@ element_option() {
 confirm_pass() {
     rofi -dmenu\
         -i\
-        -no-fixed-num-lines\
 	-password\
         -p "Wireless"\
         -mesg "Connecting to: $chosen" \
-        -theme ~/.config/rofi/confirm.rasi
+        -theme confirm.rasi
 }
 
 check_case() {
